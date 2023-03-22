@@ -5,12 +5,7 @@ import sqlite3, os
 from pydantic import BaseModel
 from typing import List
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:4200",
-    "http://csci724-pa2.s3-website-us-east-1.amazonaws.com/"
-]
+origins = ["*"]
 
 app = FastAPI()
 
