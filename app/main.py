@@ -59,7 +59,7 @@ async def rentAMovie(id: str):
     conn = setup()
     available, movie = checkIfMovieAvailable(conn, id)
     if available:
-        query = 'UPDATE Movie SET rented = ' + str(movie.rented+1) + ', available = ' + str(movie.available-1) + 'WHERE id = ' + id
+        query = 'UPDATE Movie SET rented = ' + str(movie.rented+1) + ', available = ' + str(movie.available-1) + ' WHERE id = ' + id
         cursor = conn.execute(query)
         conn.commit()
 
