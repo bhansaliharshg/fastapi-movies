@@ -64,7 +64,7 @@ async def rentAMovie(id: str):
         conn.commit()
 
 def checkIfMovieAvailable(conn, id: str):
-    query = 'SELECT * FROM movies WHERE id = ' + id
+    query = 'SELECT * FROM Movie WHERE id = ' + id
     cursor = conn.execute(query)
     movie = convertToMovie(cursor.fetchone())
     if movie.available > 0 and movie.rented <= 10:
