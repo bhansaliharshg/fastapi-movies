@@ -69,7 +69,7 @@ async def rentAMovie(id: str):
         query = 'UPDATE Movie SET rented = ' + str(movie.rented+1) + ', available = ' + str(movie.available-1) + ' WHERE id = ' + id
         cursor = conn.execute(query)
         conn.commit()
-        return 'Movie with id:' + id +' rented successfully'
+        return 'Movie \''+ movie.title +'\' rented successfully. ' + str(movie.available-1) + ' copies remaining'
     else:
         return 'Error'
 
