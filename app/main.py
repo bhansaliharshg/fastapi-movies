@@ -61,11 +61,11 @@ async def getMovieByGenre(genre: str):
     cursor = conn.execute(query)
     return [convertToMovie(movie) for movie in cursor.fetchall()]
 
-@app.get('/movie/{id}/rent')
-async def rentAMovie(id: str):
+@app.get('/movie/{id}/rent/{available}')
+async def rentAMovie(id: str, available):
     conn = setup()
-    available, movie = checkIfMovieAvailable(conn, id)
-    if available:
+    movie = checkIfMovieAvailable(conn, id)
+    if available and movie:
         query = 'UPDATE Movie SET rented = ' + str(movie.rented+1) + ', available = ' + str(movie.available-1) + ' WHERE id = ' + id
         cursor = conn.execute(query)
         conn.commit()
@@ -73,13 +73,14 @@ async def rentAMovie(id: str):
     else:
         return 'Error'
 
-def checkIfMovieAvailable(conn, id: str):
+@app.get('/movie/{id}/check')
+async def checkIfMovieAvailable(conn, id: str):
     query = 'SELECT * FROM Movie WHERE id = ' + id
     cursor = conn.execute(query)
     movie = convertToMovie(cursor.fetchone())
     if movie.available > 0 and movie.rented <= 5:
-        return True, movie
-    return False, movie
+        return movie
+    return None
 
 def convertToMovie(result):
     return Movie(id=result[0], title=result[1], isAdult=result[2], year=result[3], runtime=result[4], genre=result[5].split(',') if result[5] else [], available=result[6], rented=result[7])
