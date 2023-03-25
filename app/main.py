@@ -62,14 +62,13 @@ async def getMovieByGenre(genre: str):
     return [convertToMovie(movie) for movie in cursor.fetchall()]
 
 @app.get('/movie/{id}/rent/{available}')
-async def rentAMovie(id: str, available):
+async def rentAMovie(id: str, available: str):
     conn = setup()
-    movie = checkIfMovieAvailable(id)
-    if available > 0 and movie:
-        query = 'UPDATE Movie SET available = ' + str(movie.available-1) + ' WHERE id = ' + id
+    if available > 0:
+        query = 'UPDATE Movie SET available = ' + str(available-1) + ' WHERE id = ' + id
         cursor = conn.execute(query)
         conn.commit()
-        return 'Movie \''+ movie.title +'\' rented successfully. ' + str(movie.available-1) + ' copies remaining'
+        return 'Movie rented successfully. ' + str(available-1) + ' copies remaining'
     else:
         return 'Error'
 
