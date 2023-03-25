@@ -77,7 +77,7 @@ def checkIfMovieAvailable(conn, id: str):
     query = 'SELECT * FROM Movie WHERE id = ' + id
     cursor = conn.execute(query)
     movie = convertToMovie(cursor.fetchone())
-    if movie.available > 0 and movie.rented <= 10:
+    if movie.available > 0 and movie.rented <= 5:
         return True, movie
     return False, movie
 
