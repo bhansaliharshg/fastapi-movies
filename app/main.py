@@ -47,6 +47,13 @@ async def getMovieByName(name: str):
     cursor = conn.execute(query)
     return [convertToMovie(movie) for movie in cursor.fetchall()]
 
+@app.get('/movie/year/{year}', response_description='Search Movie By Year', response_model=List[Movie])
+async def getMovieByYear(year: str):
+    conn = setup()
+    query = 'SELECT * FROM Movie WHERE year = ' + year
+    cursor = conn.execute(query)
+    return [convertToMovie(movie) for movie in cursor.fetchall()]
+
 @app.get('/movie/genre/{genre}', response_description='Search Movie By Genre', response_model=List[Movie])
 async def getMovieByGenre(genre: str):
     conn = setup()
