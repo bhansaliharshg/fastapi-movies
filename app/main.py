@@ -64,7 +64,7 @@ async def getMovieByGenre(genre: str):
 @app.get('/movie/{id}/rent/{available}')
 async def rentAMovie(id: str, available):
     conn = setup()
-    movie = checkIfMovieAvailable(conn, id)
+    movie = checkIfMovieAvailable(id)
     if available and movie:
         query = 'UPDATE Movie SET rented = ' + str(movie.rented+1) + ', available = ' + str(movie.available-1) + ' WHERE id = ' + id
         cursor = conn.execute(query)
@@ -74,7 +74,8 @@ async def rentAMovie(id: str, available):
         return 'Error'
 
 @app.get('/movie/{id}/check')
-async def checkIfMovieAvailable(conn, id: str):
+async def checkIfMovieAvailable(id: str):
+    conn = setup()
     query = 'SELECT * FROM Movie WHERE id = ' + id
     cursor = conn.execute(query)
     movie = convertToMovie(cursor.fetchone())
