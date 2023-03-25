@@ -71,7 +71,7 @@ async def rentAMovie(id: str):
         conn.commit()
         return 'Movie with id:' + id +' rented successfully'
     else:
-        return 'Error while renting out the movie with id: ' + id
+        return 'Error'
 
 def checkIfMovieAvailable(conn, id: str):
     query = 'SELECT * FROM Movie WHERE id = ' + id
